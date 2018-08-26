@@ -1,49 +1,41 @@
-void swapArrayElements(long* array, long firstIndex, long secondIndex) {
-    array[firstIndex] ^= array[secondIndex];
-    array[secondIndex] ^= array[firstIndex];
-    array[firstIndex] ^= array[secondIndex];
+#include <iostream>
+
+void printArray(long * array, long length){
+    std::cout << "[";
+    for(int i = 0; i < length - 1; i++) {
+        std::cout << array[i] << ", ";
+    }
+    std::cout << array[length - 1] << "]" << std::endl;
 }
 
-long partition(long* array, long start, long end) {
-    long comparisonValue = array[end];
-    long index = start - 1;
+void swap(long *a, long *b) {
+    long tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
+long partition(long *array, long l, long h) {
+    int x = array[h];
+    int i = (l - 1) ;
     
-    for(int j = start; j <= end - 1; j++) {
-        if(array[j] <= comparisonValue) {
-            index++;
-            swapArrayElements(array, index, j);
+    for(int j = l; j < h - 1; j++) {
+        if(array[j] <= x) {
+            i++;
+            swap(&array[i], &array[j]);
         }
     }
-    swapArrayElements(array, index + 1, end);
-    return index + 1;
+    swap(&array[i + 1], &array[h]);
+    return (i + 1);
 }
 
 /*
- *Iterative quick sort based on https://geeksforgeeks.org/iterative-quick-sort/
+ * https://en.wikibooks.org/wiki/Algorithm_Implementation/Sorting/Quicksort
  */
-void iterativeQuickSort(long *array, long start, long end) {
-    long stack[end - start + 1];
-
-    long top = 0;
-    
-    stack[top] = start;
-    stack[++top] = end;
-    
-    while(top >= 0) {
-        end = stack[top--];
-        start = stack[top--];
-        
-        long pivot = partition(array, start, end);
-        
-        if(pivot - 1 > start) {
-            stack[++top] = start;
-            stack[++top] = pivot - 1;
-        }
-        
-        if(pivot + 1 < end) {
-            stack[++top] = pivot + 1;
-            stack[++top] = end;
-        }
+void quickSort(long * array, long l, long h) {
+    if( l < h ) {
+        long pivot = partition(array, l, h);
+        quickSort(array, l, (pivot - 1));
+        quickSort(array, (pivot + 1), h);
     }
 }
 
