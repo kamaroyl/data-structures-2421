@@ -11,7 +11,6 @@ START -> ENTER Numbers-> GUESS STATE |->  Correct Play again? |-> EXIT
                     ERROR1         ERROR2                   ERROR3
 **/
 #include <iostream>
-#include <string>
 #include "GuessingGame.hpp"
 
 /*
@@ -29,6 +28,7 @@ long enterNumberState() {
             std::cin.clear();
         }
     }
+    std::cin.clear();
     return numberOfItems;
 }
 /*
@@ -51,12 +51,12 @@ long enterMaxRange() {
 
 /*
  * This method takes care of the user interaction pertaining to the guesses.
- * Guesses must fall in (0,max], and there must be as many guesses as the user
+ * Guesses must fall in [1,max], and there must be as many guesses as the user
  * specified previously.
  *************************************************************************/
 void populateGuess(long *guess, long length, long max){
     long count = 0;
-    std::cout << "Please enter " << length << " guesses between 0 and " << max << std::endl;
+    std::cout << "Please enter " << length << " guesses between 1 and " << max << std::endl;
     while(count < length){
         std::cin >> guess[count];
         if( guess[count] > 0 && guess[count] <= max) {
@@ -70,14 +70,14 @@ void populateGuess(long *guess, long length, long max){
 
 bool playAgainState() {
     std::cout << "Would you like to play again?" << std::endl;
-    std::cout << "Enter Yes to continue or No to quit" << std::endl;
-    string response;
+    std::cout << "Enter Y to continue or n to quit" << std::endl;
+    char choice = 'n';
     while(true){
-        std::getline(std::cin, response);
-        if(response.compare("Yes")) return true;
-        if(response.compare("No")) return false;
+        std::cin >> choice;
+        if(choice == 'Y') return true;
+        if(choice == 'n') return false;
         std::cin.clear();
-        std::cout << "Please enter 'Yes' or 'No'. Case matters" << std::endl;
+        std::cout << "Please enter 'Y' or 'n'. Case matters" << std::endl;
     }
 }
 
@@ -106,18 +106,22 @@ int main() {
             guess = new long[numberOfItems];
             populateGuess(guess, numberOfItems, max);
             printGuessArray(guess, numberOfItems);    
-            long numberCorrect = guessingGame.compareGuess(guess);
+            long numberCorrect = guessingGame.compareGuess(guess, numberOfItems);
             if(numberCorrect == numberOfItems) {
                 std::cout << "You were correct! Congrats!" << std::endl;
                 break;
             }
-            // Guess object time
-           numberOfGuessesRemaining--;
+
+            numberOfGuessesRemaining--;
+
+            std::cout << "Not quite! You had " << numberCorrect << " right!" << std::endl;
+            std::cout << "You have " << numberOfGuessesRemaining << " guesses left!" << std::endl;
         }
         
-        guessingGame().~GuessingGame();        
+        guessingGame.~GuessingGame();        
 
         if(!playAgainState()) break;
+        std::cin.clear();
     }
     std::cout << "Goodbye!" << std::endl;
     return 0;

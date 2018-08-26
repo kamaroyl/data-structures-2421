@@ -5,14 +5,18 @@ CXXFLAGS = -g -std=c++11
 
 ODIR=obj
 SRC=src
+TEST=test
 
-_OBJ = GuessingGame.o main.o Util.o
+_OBJ = GuessingGame.o Util.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+_MAIN = main.o
+MAIN = $(patsubst %,$(ODIR)/%,$(_MAIN))
 
 $(ODIR)/%.o: $(SRC)/%.cpp 
 	$(CC) -c -o $@ $< $(CXXFLAGS)
 
-GuessingGame: $(OBJ)
+GuessingGame: $(OBJ) $(MAIN)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 .PHONY:  clean

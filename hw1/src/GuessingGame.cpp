@@ -28,7 +28,7 @@ GuessingGame::GuessingGame(long numberOfElements, long rangeUpperBound) {
     this->randomSequence = new long[numberOfElements];
     this->resultSequence = new long[numberOfElements];
     
-    for(int i = 0; i < numberOfElements - 1; i++) {
+    for(int i = 0; i < numberOfElements; i++) {
         this->randomSequence[i] = distribution(gen);
     }
     // Need to sort for ease of searching 

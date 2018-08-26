@@ -37,10 +37,16 @@ void testCompareGuessRepeatedGuess() {
 
 }
 
+void testRandomSeed() {
+    GuessingGame gg(2, 2);
+    gg.print();
+}
+
 int main() {
     std::cout << "testConstructor: " << testConstructor() << std::endl;
     std::cout << "testCompareGuessWrong: " << testCompareGuessWrong()  << std::endl;
     testCompareGuessRight();
     testCompareGuessRepeatedGuess();
+    testRandomSeed();
     return 0;
 }
