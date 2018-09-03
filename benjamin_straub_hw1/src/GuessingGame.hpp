@@ -28,6 +28,7 @@ public:
     void resetResultsSequence(); 
     void print(); 
 private:
+    GuessingGame();
     long *randomSequence;
     long *resultSequence;
     long numberOfElements;

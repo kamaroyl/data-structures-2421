@@ -36,6 +36,17 @@ Name: Util.hpp
 Name: Util.cpp
     Implements utility functions for dealing with long arrays, including printing and sorting.
 
+---
+## Test files
+---
+
+Name:  GuessingGameTest.cpp
+    Tests the basics of the GuessingGame. All tests but one use a constant seed so they are repeatable. One prints a random generated 
+    guessing game due to a bug introduced by creating a second constructor
+
+Name:  UtilTest.cpp
+    Tests the basic functionality of Util, including sorting, copying arrays and printing arrays 
+
 ---   
 ## Status of program
 ---
@@ -43,4 +54,10 @@ Name: Util.cpp
    
    The program was developed on kali linux (debian) using g++ 8.1.0-12 . It was 
    compiled, run, and tested on csegrid.ucdenver.pvt.
+
+---
+## Note
+---
+   This program is up at https://github.com/kamaroyl/data-structures-hw1
+   Hopefully this is unique enough that you would be able to tell if it was ripped off.
 
