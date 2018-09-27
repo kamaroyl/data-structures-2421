@@ -1,0 +1,7 @@
+function       | O()  | Reason
+operator[]     | O(1) | Just retrieving from an array, which takes constant time
+pop_back       | O(n) | Has to copy the array minus the end to a new array-> O(n-1) = O(n)
+push_back      | O(n) | Has to copy the array plus a new element -> O(n+1) = O(n)
+size           | O(1) | Returns vsize, no need to traverse array
+empty          | O(1) | Compare vsize to 0, no need to traverse array
+search         | O(n) | Vector isn't sorted, so linear search across the array -> O(n)
