@@ -5,7 +5,7 @@
 #include "DictEntry.h"
 #include <iostream>
 #include <fstream>
-#include <list>
+#include "DoublyLinkedList.hpp"
 #include <string>
 
 /*
@@ -13,7 +13,7 @@
  */
 class Dictionary {
     private:
-        std::list<DictEntry> dictEntries;
+        DoublyLinkedList dictEntries;
     public:
         Dictionary();
 
