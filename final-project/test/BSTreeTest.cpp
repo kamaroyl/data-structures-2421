@@ -31,7 +31,7 @@ void printHeader(std::string title) {
 void constructorTestNull() {
     printHeader("constructorTestNull");
     TcStringComparator* tcC = new TcStringComparator();
-    BSTree<TestClass,TcStringComparator> tcTree(tcC);
+    BSTree<TestClass,TcStringComparator> tcTree(tcC, false);
 }
 
 
@@ -48,7 +48,7 @@ void constructorTestTwo() {
     tcPointer2->setString("World!");
     tcNode1->setData(tcPointer1);
     tcNode2->setData(tcPointer2);
-    BSTree<TestClass,TcStringComparator> tcTree(tcC);
+    BSTree<TestClass,TcStringComparator> tcTree(tcC, false);
     tcTree.addNode(tcNode1);
     tcTree.addNode(tcNode2);
 }
@@ -71,7 +71,7 @@ void constructorTestFull() {
     tcNode1->setData(tcPointer1);
     tcNode2->setData(tcPointer2);
     tcNode3->setData(tcPointer3);
-    BSTree<TestClass,TcStringComparator> tcTree(tcC);
+    BSTree<TestClass,TcStringComparator> tcTree(tcC, false);
     tcTree.addNode(tcNode1);
     tcTree.addNode(tcNode2);
     tcTree.addNode(tcNode3);
@@ -95,7 +95,7 @@ void preorderTest() {
     tcNode1->setData(tcPointer1);
     tcNode2->setData(tcPointer2);
     tcNode3->setData(tcPointer3);
-    BSTree<TestClass,TcStringComparator> tcTree(tcC);
+    BSTree<TestClass,TcStringComparator> tcTree(tcC, false);
     tcTree.addNode(tcNode1);
     tcTree.addNode(tcNode2);
     tcTree.addNode(tcNode3);
@@ -120,7 +120,7 @@ void inorderTest() {
     tcNode1->setData(tcPointer1);
     tcNode2->setData(tcPointer2);
     tcNode3->setData(tcPointer3);
-    BSTree<TestClass,TcStringComparator> tcTree(tcC);
+    BSTree<TestClass,TcStringComparator> tcTree(tcC, false);
     tcTree.addNode(tcNode1);
     tcTree.addNode(tcNode2);
     tcTree.addNode(tcNode3);
@@ -146,7 +146,7 @@ void postorderTest() {
     tcNode1->setData(tcPointer1);
     tcNode2->setData(tcPointer2);
     tcNode3->setData(tcPointer3);
-    BSTree<TestClass,TcStringComparator> tcTree(tcC);
+    BSTree<TestClass,TcStringComparator> tcTree(tcC, false);
     tcTree.addNode(tcNode1);
     tcTree.addNode(tcNode2);
     tcTree.addNode(tcNode3);
@@ -171,7 +171,7 @@ void testMax() {
     tcNode1->setData(tcPointer1);
     tcNode2->setData(tcPointer2);
     tcNode3->setData(tcPointer3);
-    BSTree<TestClass,TcStringComparator> tcTree(tcC);
+    BSTree<TestClass,TcStringComparator> tcTree(tcC, false);
     tcTree.addNode(tcNode1);
     tcTree.addNode(tcNode2);
     tcTree.addNode(tcNode3);
@@ -197,7 +197,7 @@ void testMin() {
     tcNode1->setData(tcPointer1);
     tcNode2->setData(tcPointer2);
     tcNode3->setData(tcPointer3);
-    BSTree<TestClass,TcStringComparator> tcTree(tcC);
+    BSTree<TestClass,TcStringComparator> tcTree(tcC, false);
     tcTree.addNode(tcNode1);
     tcTree.addNode(tcNode2);
     tcTree.addNode(tcNode3);
@@ -223,7 +223,7 @@ void findTest() {
     tcNode1->setData(tcPointer1);
     tcNode2->setData(tcPointer2);
     tcNode3->setData(tcPointer3);
-    BSTree<TestClass,TcStringComparator> tcTree(tcC);
+    BSTree<TestClass,TcStringComparator> tcTree(tcC, false);
     tcTree.addNode(tcNode1);
     tcTree.addNode(tcNode2);
     tcTree.addNode(tcNode3);
@@ -253,7 +253,7 @@ void deleteTest() {
     tcNode1->setData(tcPointer1);
     tcNode2->setData(tcPointer2);
     tcNode3->setData(tcPointer3);
-    BSTree<TestClass,TcStringComparator> tcTree(tcC);
+    BSTree<TestClass,TcStringComparator> tcTree(tcC, false);
     tcTree.addNode(tcNode1);
     tcTree.addNode(tcNode2);
     tcTree.addNode(tcNode3);
@@ -267,6 +267,46 @@ void deleteTest() {
 
 }
 
+void deleteCopyTest() {
+    printHeader("deleteCopyTest");
+    BSNode<TestClass>* tcNode1 = new BSNode<TestClass>();
+    BSNode<TestClass>* tcNode2 = new BSNode<TestClass>();
+    BSNode<TestClass>* tcNode3 = new BSNode<TestClass>();
+    BSNode<TestClass>* tcCopy1 = new BSNode<TestClass>();
+    BSNode<TestClass>* tcCopy2 = new BSNode<TestClass>();
+    TcStringComparator* tcC = new TcStringComparator();
+    TestClass* tcPointer1 = new TestClass();
+    tcPointer1->setInt(1);
+    tcPointer1->setString("Hello");
+    TestClass* tcPointer2 = new TestClass();
+    tcPointer2->setInt(2);
+    tcPointer2->setString("World!");
+    TestClass* tcPointer3 = new TestClass();
+    tcPointer3->setInt(0); 
+    tcPointer3->setString("Again!");
+    tcCopy1->setData(tcPointer1);
+    tcCopy2->setData(tcPointer2);
+    tcNode1->setData(tcPointer1);
+    tcNode2->setData(tcPointer2);
+    tcNode3->setData(tcPointer3);
+    BSTree<TestClass,TcStringComparator> tcTree(tcC, false);
+    BSTree<TestClass,TcStringComparator>* copyTree = new BSTree<TestClass, TcStringComparator>(tcC, true);
+    tcTree.addNode(tcNode1);
+    tcTree.addNode(tcNode2);
+    tcTree.addNode(tcNode3);
+    copyTree->addNode(tcCopy1);
+    copyTree->addNode(tcCopy2);
+    std::cout << "Original Before" << std::endl;
+    tcTree.traversePostorder(printNode);
+    std::cout << "Copy Before" << std::endl;
+    copyTree->traversePostorder(printNode);
+    delete copyTree;
+    std::cout << "Original After" << std::endl;
+    tcTree.traversePostorder(printNode);
+
+}
+
+
 int main() {
     constructorTestNull();
     constructorTestTwo();
@@ -278,4 +318,5 @@ int main() {
     testMax();
     testMin();
     deleteTest();
+    deleteCopyTest();
 }

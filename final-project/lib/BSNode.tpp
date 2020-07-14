@@ -1,5 +1,9 @@
 template<typename T>
-BSNode<T>::BSNode(): left(nullptr), right(nullptr), parent(nullptr), data(nullptr){
+BSNode<T>::BSNode(): left(nullptr), right(nullptr), parent(nullptr), data(nullptr), isSecondary(false){
+}
+
+template<typename T>
+BSNode<T>::BSNode(T* data): left(nullptr), right(nullptr), parent(nullptr), data(data), isSecondary(true) { 
 }
 
 template<typename T>
@@ -7,7 +11,9 @@ BSNode<T>::~BSNode() {
     delete this->left;
     delete this->right;
     delete this->parent;
-    delete this->data;
+    if(!this->isSecondary) {
+        delete this->data;
+    }
 }
 
 template<typename T>
@@ -28,6 +34,11 @@ void BSNode<T>::setRight(BSNode<T>* right) {
 template<typename T>
 void BSNode<T>::setParent(BSNode<T>* parent) {
     this->parent = parent;
+}
+
+template<typename T>
+void BSNode<T>::setIsSecondary(bool isSecondary) {
+    this->isSecondary = isSecondary;
 }
 
 template<typename T>

@@ -20,16 +20,18 @@ class BSNode {
         BSNode<T>* left;
         BSNode<T>* right;
         BSNode<T>* parent;
+        bool isSecondary;
 
     public:
         BSNode();
+        BSNode(T* data); //copy constructor;
         ~BSNode(); 
         //Setters
 	void setData(T* data);
         void setLeft(BSNode<T>* left);
         void setRight(BSNode<T>* right);
         void setParent(BSNode<T>* parent);
-         
+        void setIsSecondary(bool isSecondary); 
         //Getters
 	T* getData();
         BSNode<T>* getLeft();

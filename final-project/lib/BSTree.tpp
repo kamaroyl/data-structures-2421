@@ -2,14 +2,19 @@
 //When you modify this, please add your name and list any changes that you made
 //A few member functions have been left blank so you, the student can implemement
 
-/*Template Directions: #include "BSTREEInt.hpp"
-but do NOT compile it (or add it to the project)*/
 #include "BSTree.hpp"
 
 template <typename T, typename C>
-BSTree<T,C>::BSTree(C* comparator) {
+BSTree<T,C>::BSTree(C* comparator, bool isSecondary) {
     this->root = nullptr;
+    this->isSecondary = isSecondary;
     this->comparator = comparator;
+    this->count = 0;
+}
+
+template <typename T, typename C>
+unsigned int BSTree<T,C>::getCount() {
+    return this->count;
 }
 
 template <typename T, typename C>
@@ -54,6 +59,11 @@ BSNode<T>* BSTree<T,C>::getRoot() {
 
 template <typename T, typename C>
 void BSTree<T,C>::addNode(BSNode<T>* node) {
+
+    if(this->isSecondary) {
+        node->setIsSecondary(true);
+    }
+
     BSNode<T>* parentPtr = nullptr;
     if(this->getRoot() == nullptr) { //case empty tree
         this->root = node;
@@ -61,15 +71,17 @@ void BSTree<T,C>::addNode(BSNode<T>* node) {
     }
     
     BSNode<T>* currentPtr = this->getRoot();
+
     while(currentPtr) {
         parentPtr = currentPtr;
-        
-        if((*comparator)(node->getData(), currentPtr->getData()) < 0) {
+        char val = (*comparator)(node->getData(), currentPtr->getData());
+        if(val < 0) {
             currentPtr = currentPtr->getLeft();
-        } else {
+        } else if( val >= 0) {
             currentPtr = currentPtr->getRight();
-        }
+        }   
     }
+
     if((*comparator)(node->getData(), parentPtr->getData()) < 0) {
         parentPtr->setLeft(node);
         node->setParent(parentPtr);
@@ -77,6 +89,7 @@ void BSTree<T,C>::addNode(BSNode<T>* node) {
         parentPtr->setRight(node);
         node->setParent(parentPtr);
     }
+    this->count++;
 }
 
 template <typename T, typename C>
@@ -226,7 +239,8 @@ BSNode<T>* BSTree<T,C>::removeNode(BSNode<T>* node) {
             if(node == this->getRoot()) { //We've confirmed that the root is equal to the node
                 
                 this->root = nullptr; //remove root
-                 
+                this->count--;
+
                 return node; //return node
             }
             else {
@@ -236,10 +250,12 @@ BSNode<T>* BSTree<T,C>::removeNode(BSNode<T>* node) {
             if(parentPtr->getLeft() == node) { // the node is the left child of the parent
                 parentPtr->setLeft(nullptr);
                 node->setParent(nullptr);
+                this->count--;
                 return node;
             } else if(parentPtr->getRight() == node) { // the node is the right child of the parent
                 parentPtr->setRight(nullptr);
                 node->setParent(nullptr);
+                this->count--;
                 return node;
             } else {
                 std::cout << "we are in a bad state"<< std::endl;
@@ -261,6 +277,7 @@ BSNode<T>* BSTree<T,C>::removeNode(BSNode<T>* node) {
                  node->setLeft(nullptr);
                  node->setRight(nullptr);
                  node->setParent(nullptr);
+                 this->count--;
                  return node;
             } else {
                 return nullptr; //Another odd state
@@ -281,6 +298,7 @@ BSNode<T>* BSTree<T,C>::removeNode(BSNode<T>* node) {
             } else {
                 return nullptr; //Parent doesn't point to child object, we're in a bad state
             }
+            this->count--;
             return node;
         }
     } else { //Node is not a leaf and not the root
@@ -305,7 +323,8 @@ BSNode<T>* BSTree<T,C>::removeNode(BSNode<T>* node) {
                 replacementPtr->setParent(nullptr);
                 replacementPtr->setLeft(nullptr);
                 replacementPtr->setRight(nullptr);
-   
+                this->count--;                
+
                 return replacementPtr; //replacement ptr is to be removed
             } else {
                 return nullptr; // a bad state
@@ -316,7 +335,14 @@ BSNode<T>* BSTree<T,C>::removeNode(BSNode<T>* node) {
             replacementPtr->setParent(nullptr);
             replacementPtr->setLeft(nullptr);
             replacementPtr->setRight(nullptr);
+            this->count--;           
+ 
             return replacementPtr;
         }
     }
+}
+
+template <typename T, typename C>
+C* BSTree<T,C>::getComparator() {
+    return this->comparator;
 }

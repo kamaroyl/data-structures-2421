@@ -21,8 +21,15 @@ void testConstructNode(){
     printNode(aNode);
 }
 
-
+void copyConstructionTest() {
+    BSNode<testNode>* aNode = new BSNode<testNode>();
+    testNode* test = new testNode(12);
+    aNode->setData(test);
+    BSNode<testNode>* bNode = new BSNode<testNode>(aNode->getData());
+    printNode(bNode);
+}
 
 int main() {
     testConstructNode();
+    copyConstructionTest();
 }

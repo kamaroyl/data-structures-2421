@@ -4,6 +4,12 @@
 #include <map>
 #include <string>
 
+class MenuData {
+    private:
+        std::string description;
+        void (*menuFunction)();
+}
+0
 //A simple class that represents the menus
 class Menu {
 
@@ -13,6 +19,7 @@ class Menu {
 
     public:
         void printFields(); //print all keys in map
+        bool conainsKey(std::string key); //check if menu has the option
         void executeFieldFunction(std::string field); //execute function pointer mapped to string
 
 };
